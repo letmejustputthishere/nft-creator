@@ -14,6 +14,8 @@
     padding: 0;
     background-color: #111827;
     color: #ffffff;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 }
 
@@ -80,4 +82,21 @@ button:focus {
 
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
+}
+
+/* Mobile-specific utilities */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Ensure buttons are touch-friendly on mobile */
+  @media (max-width: 640px) {
+    button {
+      min-height: 44px; /* Apple's recommended minimum touch target */
+    }
+  }
 }

@@ -62,36 +62,36 @@ export function NFTCard({ nft }: NFTCardProps) {
             </div>
 
             {/* NFT Details */}
-            <div className="p-4 space-y-3">
+            <div className="p-3 sm:p-4 space-y-3">
                 <div>
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="font-semibold text-base sm:text-lg truncate">
                         {getMetadataValue("name")}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-400 text-xs sm:text-sm">
                         Token ID: {nft.tokenId.toString()}
                     </p>
-                    <p className="text-gray-300 text-sm mt-1">
+                    <p className="text-gray-300 text-xs sm:text-sm mt-1 line-clamp-2">
                         {getMetadataValue("description")}
                     </p>
                 </div>
 
                 {/* Transfer Form */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300">
                         Transfer to:
                     </label>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                         <input
                             type="text"
                             value={recipient}
                             onChange={(e) => setRecipient(e.target.value)}
                             placeholder="Enter recipient principal"
-                            className="flex-1 px-3 py-2 text-sm bg-gray-600 border border-gray-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            className="flex-1 px-3 py-2 text-xs sm:text-sm bg-gray-600 border border-gray-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         />
                         <button
                             onClick={handleTransfer}
                             disabled={isTransferring || !recipient}
-                            className="px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded transition-colors"
+                            className="px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded transition-colors flex items-center justify-center sm:w-auto w-full"
                         >
                             {isTransferring ? (
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>

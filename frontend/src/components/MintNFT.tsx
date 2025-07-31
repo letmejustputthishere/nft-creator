@@ -20,7 +20,7 @@ export function MintNFT() {
 
     if (isLoadingOwner) {
         return (
-            <div className="flex items-center gap-2 text-gray-400">
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-500"></div>
                 Loading collection owner...
             </div>
@@ -29,7 +29,7 @@ export function MintNFT() {
 
     if (!collectionOwner) {
         return (
-            <div className="text-gray-400">
+            <div className="text-gray-400 text-sm sm:text-base">
                 Collection must be claimed before minting NFTs.
             </div>
         );
@@ -37,7 +37,7 @@ export function MintNFT() {
 
     if (!isOwner) {
         return (
-            <div className="text-gray-400">
+            <div className="text-gray-400 text-sm sm:text-base">
                 Only the collection owner can mint NFTs.
             </div>
         );
@@ -61,25 +61,23 @@ export function MintNFT() {
 
     return (
         <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Recipient Principal
-                    </label>
-                    <input
-                        type="text"
-                        value={recipient}
-                        onChange={(e) => setRecipient(e.target.value)}
-                        placeholder="Enter recipient principal"
-                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    />
-                </div>
+            <div className="w-full">
+                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                    Recipient Principal
+                </label>
+                <input
+                    type="text"
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)}
+                    placeholder="Enter recipient principal"
+                    className="w-full px-3 py-2 text-sm bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
             </div>
 
             <button
                 onClick={handleMint}
                 disabled={isMinting || !recipient}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg transition-colors"
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg transition-colors text-sm w-full sm:w-auto"
             >
                 {isMinting ? (
                     <>

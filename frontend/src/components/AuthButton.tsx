@@ -32,15 +32,15 @@ export function AuthButton() {
 
     if (identity) {
         return (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
                 <button
                     onClick={copyPrincipal}
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-300 transition-colors cursor-pointer group"
+                    className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 hover:text-gray-300 transition-colors cursor-pointer group"
                     title="Click to copy full principal"
                 >
                     <User className="w-4 h-4" />
-                    <span className="font-mono">
-                        {identity.getPrincipal().toString().slice(0, 8)}...
+                    <span className="font-mono text-xs sm:text-sm">
+                        {identity.getPrincipal().toString().slice(0, 6)}...
                     </span>
                     {copied ? (
                         <Check className="w-3 h-3 text-green-400" />
@@ -55,10 +55,11 @@ export function AuthButton() {
                 )}
                 <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors text-sm"
                 >
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    <span className="hidden sm:inline">Logout</span>
+                    <span className="sm:hidden">Exit</span>
                 </button>
             </div>
         );
@@ -67,10 +68,11 @@ export function AuthButton() {
     return (
         <button
             onClick={login}
-            className="flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors font-medium"
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors font-medium text-sm sm:text-base w-full sm:w-auto"
         >
             <LogIn className="w-4 h-4" />
-            Login with Internet Identity
+            <span className="hidden sm:inline">Login with Internet Identity</span>
+            <span className="sm:hidden">Login with II</span>
         </button>
     );
 }

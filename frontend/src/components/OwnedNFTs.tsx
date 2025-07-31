@@ -23,14 +23,14 @@ export function OwnedNFTs() {
 
     if (!ownedNFTs || ownedNFTs.length === 0) {
         return (
-            <div className="text-gray-400 text-center py-8">
+            <div className="text-gray-400 text-center py-6 sm:py-8 text-sm sm:text-base">
                 You don't own any NFTs yet.
             </div>
         );
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {ownedNFTs.map((nft) => (
                 <NFTCard key={nft.tokenId.toString()} nft={nft} />
             ))}
