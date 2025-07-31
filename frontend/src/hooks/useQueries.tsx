@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useInternetIdentity } from "ic-use-internet-identity";
-import { useActor } from "../useActor";
+import { useActor } from "./useActor";
+import { useToast } from "../contexts/ToastContext";
 import type {
     Account,
     Account__1,
@@ -39,6 +40,7 @@ export function useCollectionOwner() {
 export function useClaimCollection() {
     const queryClient = useQueryClient();
     const { actor } = useActor();
+    const { addError, addSuccess } = useToast();
 
     return useMutation({
         mutationFn: async () => {
@@ -48,6 +50,10 @@ export function useClaimCollection() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["collectionStatus"] });
             queryClient.invalidateQueries({ queryKey: ["collectionOwner"] });
+            addSuccess("Collection claimed successfully!");
+        },
+        onError: (error: Error) => {
+            addError(`Failed to claim collection: ${error.message}`);
         },
     });
 }
@@ -56,6 +62,7 @@ export function useClaimCollection() {
 export function useMintNFT() {
     const queryClient = useQueryClient();
     const { actor } = useActor();
+    const { addError, addSuccess } = useToast();
 
     return useMutation({
         mutationFn: async ({ to }: { to: Account }) => {
@@ -68,6 +75,10 @@ export function useMintNFT() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["ownedNFTs"] });
+            addSuccess("NFT minted successfully!");
+        },
+        onError: (error: Error) => {
+            addError(`Failed to mint NFT: ${error.message}`);
         },
     });
 }
@@ -109,6 +120,7 @@ export function useOwnedNFTs() {
 export function useTransferNFT() {
     const queryClient = useQueryClient();
     const { actor } = useActor();
+    const { addError, addSuccess } = useToast();
 
     return useMutation({
         mutationFn: async ({
@@ -122,11 +134,7 @@ export function useTransferNFT() {
 
             const transferArg: TransferArg = {
                 token_id: tokenId,
-                to: {
-                    owner: to.owner,
-                    subaccount:
-                        to.subaccount.length > 0 ? to.subaccount[0] : [],
-                } as Account__1,
+                to,
                 memo: [],
                 from_subaccount: [],
                 created_at_time: [],
@@ -150,6 +158,10 @@ export function useTransferNFT() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["ownedNFTs"] });
+            addSuccess("NFT transferred successfully!");
+        },
+        onError: (error: Error) => {
+            addError(`Failed to transfer NFT: ${error.message}`);
         },
     });
 }
