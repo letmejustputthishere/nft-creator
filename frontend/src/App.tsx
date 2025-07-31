@@ -19,13 +19,15 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-center sm:text-left">
             NFT Collection Manager
           </h1>
-          <AuthButton />
+          <div className="flex justify-center sm:justify-end">
+            <AuthButton />
+          </div>
         </div>
 
         {identity ? (
@@ -55,7 +57,9 @@ function App() {
               <p className="text-gray-400 mb-6">
                 Please authenticate with Internet Identity to manage your NFT collection.
               </p>
-              <AuthButton />
+              <div className="flex justify-center">
+                <AuthButton />
+              </div>
             </div>
           </div>
         )}
