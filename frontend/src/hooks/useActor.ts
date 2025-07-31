@@ -2,7 +2,6 @@ import { useInternetIdentity } from "ic-use-internet-identity";
 import {
     createActor,
     canisterId,
-    backend,
 } from "../../../src/declarations/backend";
 import { type _SERVICE as backendInterface } from "../../../src/declarations/backend/backend.did";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,48 +13,45 @@ export function useActor() {
     const queryClient = useQueryClient();
 
     const actorQuery = useQuery<backendInterface>({
-        queryKey: [ACTOR_QUERY_KEY, identity?.getPrincipal().toString()],
+        queryKey: [ACTOR_QUERY_KEY, identity?.getPrincipal().toString() || "anonymous"],
         queryFn: async () => {
-            const isAuthenticated = !!identity;
-
-            if (!isAuthenticated) {
-                // Return anonymous actor if not authenticated
-                return backend;
+            if (!canisterId) {
+                throw new Error("Canister ID not available");
             }
 
-            const actorOptions = {
+            if (!identity) {
+                // Create anonymous actor
+                return createActor(canisterId);
+            }
+
+            // Create authenticated actor
+            return createActor(canisterId, {
                 agentOptions: {
                     identity,
                 },
-            };
-
-            const actor = await createActor(canisterId, actorOptions);
-            return actor;
+            });
         },
-        // Only refetch when identity changes
         staleTime: Infinity,
-        // This will cause the actor to be recreated when the identity changes
         enabled: true,
+        retry: (failureCount, error) => {
+            console.error("Actor creation failed:", error);
+            return failureCount < 2; // Retry up to 2 times
+        },
     });
 
-    // When the actor changes, invalidate dependent queries
+    // Clear all dependent queries when identity changes
     useEffect(() => {
-        if (actorQuery.data) {
-            queryClient.invalidateQueries({
-                predicate: (query) => {
-                    return !query.queryKey.includes(ACTOR_QUERY_KEY);
-                },
-            });
-            queryClient.refetchQueries({
-                predicate: (query) => {
-                    return !query.queryKey.includes(ACTOR_QUERY_KEY);
-                },
-            });
-        }
-    }, [actorQuery.data, queryClient]);
+        queryClient.invalidateQueries({
+            predicate: (query) => {
+                return !query.queryKey.includes(ACTOR_QUERY_KEY);
+            },
+        });
+    }, [identity?.getPrincipal().toString(), queryClient]);
 
     return {
         actor: actorQuery.data || null,
         isFetching: actorQuery.isFetching,
+        isError: actorQuery.isError,
+        error: actorQuery.error,
     };
 }

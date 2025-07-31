@@ -1,10 +1,12 @@
 import { useInternetIdentity } from "ic-use-internet-identity";
 import { LogIn, LogOut, User, Copy, Check } from "lucide-react";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function AuthButton() {
     const { identity, login, clear } = useInternetIdentity();
     const [copied, setCopied] = useState(false);
+    const queryClient = useQueryClient();
 
     const copyPrincipal = async () => {
         if (!identity) return;
@@ -17,6 +19,15 @@ export function AuthButton() {
         } catch (error) {
             console.error("Failed to copy principal:", error);
         }
+    };
+
+    const handleLogout = async () => {
+        // Clear all queries before logging out
+        queryClient.clear();
+        // Clear the identity
+        await clear();
+        // Force a page reload to ensure clean state
+        window.location.reload();
     };
 
     if (identity) {
@@ -43,7 +54,7 @@ export function AuthButton() {
                     </span>
                 )}
                 <button
-                    onClick={clear}
+                    onClick={handleLogout}
                     className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
                 >
                     <LogOut className="w-4 h-4" />
