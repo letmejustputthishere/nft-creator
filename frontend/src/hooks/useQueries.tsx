@@ -4,9 +4,8 @@ import { useActor } from "./useActor";
 import { useToast } from "../contexts/ToastContext";
 import type {
     Account,
-    Account__1,
     TransferArg,
-} from "../../../src/declarations/backend/backend.did";
+} from "declarations/backend/backend.did";
 
 // Collection Status
 export function useCollectionStatus() {

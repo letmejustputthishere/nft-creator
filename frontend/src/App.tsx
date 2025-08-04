@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useInternetIdentity } from 'ic-use-internet-identity';
 import { CollectionClaim } from './components/CollectionClaim';
 import { MintNFT } from './components/MintNFT';

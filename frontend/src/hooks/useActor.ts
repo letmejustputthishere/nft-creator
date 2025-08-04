@@ -2,8 +2,8 @@ import { useInternetIdentity } from "ic-use-internet-identity";
 import {
     createActor,
     canisterId,
-} from "../../../src/declarations/backend";
-import { type _SERVICE as backendInterface } from "../../../src/declarations/backend/backend.did";
+} from "declarations/backend";
+import { type _SERVICE as backendInterface } from "declarations/backend/backend.did";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
